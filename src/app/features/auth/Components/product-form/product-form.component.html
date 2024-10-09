@@ -9,7 +9,7 @@
         <input formControlName="name" type="text" id="name" placeholder="Enter product name"
           class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
           [attr.aria-invalid]="productForm.controls['name'].invalid"
-          [attr.aria-describedby]="productForm.controls['name'].invalid ? 'name-error' : null"/>
+          [attr.aria-describedby]="productForm.controls['name'].invalid ? 'name-error' : null" />
         <div *ngIf="productForm.controls['name'].invalid && productForm.controls['name'].touched"
           class="text-red-500 text-xs mt-1">
           Product name is required.
@@ -60,13 +60,20 @@
 
       <div class="relative lg:col-span-2">
         <label for="image" class="block text-sm md:text-base font-medium mb-1">Product Image URL</label>
-        <input formControlName="image" type="text" id="image" placeholder="Enter product image URL"
-          class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" />
-        <div *ngIf="productForm.controls['image'].invalid && productForm.controls['image'].touched"
-          class="text-red-500 text-xs mt-1">
-          Image URL is required.
+        <div class="relative">
+          <input formControlName="image" type="text" id="image" placeholder="Enter product image URL"
+            class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" />
+        </div>
+        <div *ngIf="productForm.controls['image'].touched && productForm.controls['image'].invalid">
+          <p *ngIf="productForm.controls['image'].hasError('required')" class="text-red-500 text-xs mt-1 ml-1">
+            Image URL is required
+          </p>
+          <p *ngIf="productForm.controls['image'].hasError('pattern')" class="text-red-500 text-xs mt-1 ml-1">
+            Please enter a valid URL (starting with http:// or https://)
+          </p>
         </div>
       </div>
+
 
       <div class="flex items-center">
         <input formControlName="isAvailable" type="checkbox" id="isAvailable" class="mr-2" />

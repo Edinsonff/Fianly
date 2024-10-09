@@ -27,7 +27,7 @@ export class ProductFormComponent implements OnInit {
     stock: [0, [Validators.required, Validators.min(0), CustomValidators.numeric]],
     isAvailable: [true],
     category: ['', [Validators.required, CustomValidators.noLeadingOrTrailingWhitespaceValidator]],
-    image: ['', Validators.required]
+    image: ['', [Validators.required, Validators.pattern('https?://.+')]]
   });
 
   constructor(private fb: FormBuilder,

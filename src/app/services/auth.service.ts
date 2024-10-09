@@ -20,7 +20,7 @@ export class AuthService {
 
   constructor() {
     if (this.isBrowser()) {
-      const savedUser = localStorage.getItem('user');
+      const savedUser = localStorage.getItem(this.USER_KEY);
       if (savedUser) {
         this.loggedInUser = JSON.parse(savedUser);
       } else {
@@ -97,7 +97,7 @@ export class AuthService {
 
   private getSavedUser(): any {
     if (this.isBrowser()) {
-      const savedUser = localStorage.getItem(this.AUTH_KEY);
+      const savedUser = localStorage.getItem(this.USER_KEY);
       return savedUser ? JSON.parse(savedUser) : this.mockUserData;
     }
     return null;
