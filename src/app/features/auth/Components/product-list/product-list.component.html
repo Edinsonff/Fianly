@@ -1,19 +1,20 @@
+<h1 class="text-3xl font-bold text-center w-full pb-4 shadow-lg">Product List</h1>
 <div class="container w-full mx-auto p-4">
-  <h1 class="text-3xl font-bold text-center mb-8 pb-4 shadow-lg">Product List</h1>
-
   <div class="mb-4 flex space-x-4">
     <button type="button" (click)="logout()" aria-label="Logout" matTooltip="Logout" class="btn-icon">
-      <img src="../../../../../assets/logout-svgrepo-com.svg" alt="Logout Icon" class="w-10 h-10 svg-icon" loading="lazy">
+      <img src="../../../../../assets/logout-svgrepo-com.svg" alt="Logout Icon" class="w-10 h-10 svg-icon"
+        loading="lazy">
     </button>
 
     <button type="button" (click)="addProduct()" aria-label="Add Product" matTooltip="Add product" class="btn-icon"
       *ngIf="!isAddingProduct && !selectedProduct()">
-      <img src="../../../../../assets/add-circle-svgrepo-com.svg" alt="Add Product Icon" class="w-10 h-10" loading="lazy">
+      <img src="../../../../../assets/add-circle-svgrepo-com.svg" alt="Add Product Icon" class="w-10 h-10"
+        loading="lazy">
     </button>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <aside class="p-4 lg:col-span-1 self-start border-t-2">
+    <aside class="p-4 lg:col-span-1 self-start border-t-2">
       <h2 class="text-xl font-bold mb-4">Filters</h2>
 
       <div class="space-y-4">
@@ -74,13 +75,21 @@
       </div>
     </aside>
 
-        <section class="lg:col-span-3">
-            <div *ngIf="isAddingProduct || selectedProduct()" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <section class="lg:col-span-3">
+      <div *ngIf="filteredProducts().length === 0" class="flex justify-center items-center h-64">
+        <div class="bg-gray-100 border border-gray-300 text-center p-8 rounded-lg shadow-lg">
+          <p class="text-2xl font-bold text-gray-700">No products found</p>
+          <p class="text-gray-500 mt-2">Try adjusting your filters to find more results.</p>
+        </div>
+      </div>
+      <div *ngIf="isAddingProduct || selectedProduct()"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <app-product-form [product]="selectedProduct()" (formSubmit)="onFormSubmit($event)" (cancel)="onCancel()">
         </app-product-form>
       </div>
 
-            <div [class.opacity-50]="isAddingProduct || selectedProduct()" *ngIf="products().length > 0 && !selectedProduct() && !isAddingProduct; else noProducts">
+      <div [class.opacity-50]="isAddingProduct || selectedProduct()"
+        *ngIf="products().length > 0 && !selectedProduct() && !isAddingProduct; else noProducts">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div *ngFor="let product of paginatedProducts()" class="product-card p-4 border rounded shadow-lg">
             <img [src]="product.image" alt="{{ product.name }}" class="w-full h-48 object-cover mb-2" loading="lazy">
@@ -95,8 +104,7 @@
             <div class="flex space-x-2 mt-2">
               <button (click)="editProduct(product)"
                 class="bg-blue-500 hover:bg-blue-400 text-white p-2 rounded w-full">Edit</button>
-              <button (click)="deleteProduct(product.id)"
-                class=" hover:bg-red-500 border text-white p-2 rounded">
+              <button (click)="deleteProduct(product.id)" class=" hover:bg-red-500 border text-white p-2 rounded">
                 <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8">
                   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                   <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -126,8 +134,8 @@
         <p class="text-center text-gray-600">No products available.</p>
       </ng-template>
 
-      <div class="pagination mt-4 flex justify-center items-center">
-        <button type="button" (click)="previousPage()" [disabled]="currentPage() === 1 || products().length === 0"
+      <div *ngIf="hasMultiplePages()" class="pagination mt-4 flex justify-center items-center">
+        <button type="button" (click)="previousPage()" [disabled]="currentPage() === 1"
           class="border-gray-400 hover:bg-gray-300 border-2 text-black font-bold py-2 px-4 rounded-full flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
             class="w-5 h-5 mr-1">
@@ -135,7 +143,7 @@
           </svg>
         </button>
         <span class="mx-2">{{ currentPage() }} / {{ totalPages }}</span>
-        <button type="button" (click)="nextPage()" [disabled]="currentPage() === totalPages || products().length === 0"
+        <button type="button" (click)="nextPage()" [disabled]="currentPage() === totalPages"
           class="border-gray-400 hover:bg-gray-300 border-2 text-black font-bold py-2 px-4 rounded-full flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
             class="w-5 h-5 mr-1">

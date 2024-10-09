@@ -28,14 +28,14 @@ export class ProductListComponent implements OnInit {
   filterPriceRange = signal<string>('');
 
   selectedProduct = signal<Product | null>(null);
-  isAddingProduct:boolean = false;
+  isAddingProduct: boolean = false;
 
   constructor(
     private productService: ProductService,
     private authService: AuthService,
     private router: Router,
     private handler: HandlerService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.loadProducts();
@@ -140,7 +140,12 @@ export class ProductListComponent implements OnInit {
   }
 
   get totalPages(): number {
-    return Math.ceil(this.products().length / this.pageSize());
+    const totalFilteredProducts = this.filteredProducts().length;
+    return Math.ceil(totalFilteredProducts / this.pageSize());
+  }
+
+  hasMultiplePages(): boolean {
+    return this.filteredProducts().length > this.pageSize();
   }
 
   paginatedProducts(): Product[] {
